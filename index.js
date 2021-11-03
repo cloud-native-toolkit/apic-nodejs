@@ -9,15 +9,20 @@ http.createServer(function (req, res) {
   req.url.split('?')[0] : req.url
   
   //check if the user is looking for the help url path
-  if(url == "/help"){
+  if(url == "/cloud-provider/help"){
     //write a response to send to the client
-    res.write("Try /cloud")
+    res.write("Try /cloud-provider/cloud")
     res.end();
   }
-  else if(url == "/cloud"){
+  else if(url == "/cloud-provider/cloud"){
     //return the cloud this application is deployed onto
 
-    res.write('You are in XXXX')
+    res.write('You are in AWS Cloud')
+    res.end();
+  }
+  else {
+    //redirect all other url paths to the help path
+    res.writeHead(302,  {Location: "/cloud-provider/help"})
     res.end();
   }
 }).listen(8080, function(){
