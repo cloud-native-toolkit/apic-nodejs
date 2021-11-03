@@ -3,21 +3,37 @@ const http = require('http')
 
 //Create a http server
 http.createServer(function (req, res) {
+
+  // console.log("This is the request:")
+  // console.log(req.body)
+  // console.log("req.headers:")
+  // console.log(req.headers)
+  // console.log("req.headers.host:")
+  // console.log(req.headers.host)
+  // console.log("req.url:")
+  // console.log(req.url)
+  // console.log("x-forwarded-host")
+  // console.log(req.headers['x-forwarded-host'])
   
   //get the url string from the request url
   let url = (req.url.split('?')) ?
   req.url.split('?')[0] : req.url
   
   //check if the user is looking for the help url path
-  if(url == "/help"){
+  if(url == "/cloud-provider/help"){
     //write a response to send to the client
-    res.write("Try /cloud")
+    res.write("Try /cloud-provider/cloud")
     res.end();
   }
-  else if(url == "/cloud"){
+  else if(url == "/cloud-provider/cloud"){
     //return the cloud this application is deployed onto
 
-    res.write('You are in XXXX')
+    res.write("The request has been made from: \n\n" + req.headers['x-forwarded-host'])
+    res.end();
+  }
+  else {
+    //redirect all other url paths to the help path
+    res.writeHead(302,  {Location: "/cloud-provider/help"})
     res.end();
   }
 }).listen(8080, function(){
